@@ -8,7 +8,7 @@ module.exports = app => {
     })
     app.post('/gerar', (req, res) => {
         Links.create({ LinkOriginal: req.body.Link, ShortLink: Math.random().toString(36).slice(-10) }).then(response => {
-            res.send(req.headers.host + '/' + response.ShortLink)
+            res.send('http://' + req.headers.host + '/' + response.ShortLink)
         })
     })
 }
