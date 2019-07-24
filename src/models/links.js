@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataType) => {
     const Links = sequelize.define('Links', {
-        id: {
+        Id: {
             type: DataType.INTEGER,
             primaryKey: true,
             autoIncrement: true
@@ -12,6 +12,14 @@ module.exports = (sequelize, DataType) => {
         ShortLink: {
             type: DataType.STRING,
             allowNull: false
+        },
+        DataCriacao: {
+            type: DataType.DATE,
+            allowNull: false
+        },
+        Clicks: {
+            type: DataType.INTEGER,
+            allowNull: true
         }
     })
 
