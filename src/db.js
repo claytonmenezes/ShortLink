@@ -1,28 +1,49 @@
-import Sequelize from 'sequelize'
-import fs from 'fs'
-import path from 'path'
+import { Sequelize, DataTypes } from 'sequelize'
 
-let db = null
 
-module.exports = app => {
-    const config = app.libs.config
-    
-    if (!db) {
-        const sequelize = new Sequelize(config.databse, config.username, config.password, config.params)
-
-        db = {
-            Sequelize,
-            sequelize,
-            models: {}
-        }
-
-        const dir = path.join(__dirname, 'models') 
-        fs.readdirSync(dir).forEach(fileName => {
-            const modelDir = path.join(dir, fileName)
-            const model = sequelize.import(modelDir)
-            db.models[model.name] = model
-        })
+const config = {
+  database: 'agilusshortlink',
+  username: '',
+  password: '',
+  params: {
+    dialect: 'sqlite',
+    storage: 'agilusshortlink.sqlite',
+    define: {
+      underscore: true
     }
-
-    return db
+  }
 }
+
+const sequelize = new Sequelize(config.databse, config.username, config.password, config.params)
+
+const Links = sequelize.define('Links', {
+  Id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  LinkOriginal: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  ShortLink: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  DataCriacao: {
+    type: DataTypes.DATE,
+    allowNull: false
+  },
+  Clicks: {
+    type: DataTypes.INTEGER,
+    allowNull: true
+  }
+})
+
+const db = {
+  Sequelize,
+  sequelize,
+  models: {Links}
+}
+
+export default db
